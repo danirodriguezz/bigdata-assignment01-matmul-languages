@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Empirical growth exponent $b$ of $T \approx c\,n^b$ (least squares on $\log$ median runtime vs.\ $\log n$) with 95\,\% confidence interval (Student $t$ on the slope). The cubic model predicts $b=3$.}
+\label{tab:growth}
+\small
+\begin{tabular}{@{}llrcc@{}}
+\toprule
+Implementation & $n$ range & pts & $b$ [95\,\% CI] & $R^2$ \\
+\midrule
+C & 256--768 & 4 & 2.96 [1.79, 4.14] & 0.9833 \\
+C & 64--512 & 5 & 3.49 [3.31, 3.67] & 0.9992 \\
+Java & 256--768 & 4 & 3.19 [2.26, 4.13] & 0.9909 \\
+Java & 64--512 & 5 & 3.35 [3.10, 3.61] & 0.9983 \\
+Python & 256--512 & 3 & 3.35 [-10.93, 17.64] & 0.8991 \\
+Python & 64--512 & 5 & 3.29 [2.68, 3.91] & 0.9899 \\
+\bottomrule
+\end{tabular}
+\end{table}

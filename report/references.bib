@@ -1,1 +1,132 @@
-% Verified references only (see scientific-report skill). Add DOI after verifying each entry.
+% Verified references only (see scientific-report skill). Each entry was checked on 2026-10-27:
+% DOI metadata via the Crossref API (api.crossref.org), book metadata via publisher/library catalogues,
+% documentation via the official URL (HTTP 200 and the quoted content).
+
+@book{golub2013,
+  author    = {Gene H. Golub and Charles F. Van Loan},
+  title     = {Matrix Computations},
+  edition   = {4th},
+  publisher = {Johns Hopkins University Press},
+  address   = {Baltimore, MD},
+  year      = {2013},
+  isbn      = {978-1-4214-0794-4}
+}
+
+@book{higham2002,
+  author    = {Nicholas J. Higham},
+  title     = {Accuracy and Stability of Numerical Algorithms},
+  edition   = {2nd},
+  publisher = {Society for Industrial and Applied Mathematics (SIAM)},
+  address   = {Philadelphia, PA},
+  year      = {2002},
+  doi       = {10.1137/1.9780898718027}
+}
+
+@misc{drepper2007,
+  author       = {Ulrich Drepper},
+  title        = {What Every Programmer Should Know About Memory},
+  howpublished = {Red Hat, Inc., technical report},
+  year         = {2007},
+  note         = {\url{https://www.akkadia.org/drepper/cpumemory.pdf} (accessed 2026-10-27)}
+}
+
+@inproceedings{lam1991,
+  author    = {Monica D. Lam and Edward E. Rothberg and Michael E. Wolf},
+  title     = {The cache performance and optimizations of blocked algorithms},
+  booktitle = {Proc. 4th Int. Conf. Architectural Support for Programming Languages and Operating Systems (ASPLOS-IV)},
+  publisher = {ACM},
+  pages     = {63--74},
+  year      = {1991},
+  doi       = {10.1145/106972.106981}
+}
+
+@article{goto2008,
+  author  = {Kazushige Goto and Robert A. van de Geijn},
+  title   = {Anatomy of high-performance matrix multiplication},
+  journal = {ACM Transactions on Mathematical Software},
+  volume  = {34},
+  number  = {3},
+  pages   = {1--25},
+  year    = {2008},
+  doi     = {10.1145/1356052.1356053}
+}
+
+@inproceedings{georges2007,
+  author    = {Andy Georges and Dries Buytaert and Lieven Eeckhout},
+  title     = {Statistically rigorous {Java} performance evaluation},
+  booktitle = {Proc. 22nd ACM SIGPLAN Conf. Object-Oriented Programming Systems, Languages and Applications (OOPSLA)},
+  publisher = {ACM},
+  pages     = {57--76},
+  year      = {2007},
+  doi       = {10.1145/1297027.1297033}
+}
+
+@inproceedings{hoefler2015,
+  author    = {Torsten Hoefler and Roberto Belli},
+  title     = {Scientific benchmarking of parallel computing systems: Twelve ways to tell the masses when reporting performance results},
+  booktitle = {Proc. Int. Conf. High Performance Computing, Networking, Storage and Analysis (SC '15)},
+  publisher = {ACM},
+  pages     = {1--12},
+  year      = {2015},
+  doi       = {10.1145/2807591.2807644}
+}
+
+@inproceedings{mytkowicz2009,
+  author    = {Todd Mytkowicz and Amer Diwan and Matthias Hauswirth and Peter F. Sweeney},
+  title     = {Producing wrong data without doing anything obviously wrong!},
+  booktitle = {Proc. 14th Int. Conf. Architectural Support for Programming Languages and Operating Systems (ASPLOS XIV)},
+  publisher = {ACM},
+  pages     = {265--276},
+  year      = {2009},
+  doi       = {10.1145/1508244.1508275}
+}
+
+@article{harris2020,
+  author  = {Charles R. Harris and K. Jarrod Millman and St{\'e}fan J. van der Walt and Ralf Gommers and Pauli Virtanen and David Cournapeau and others},
+  title   = {Array programming with {NumPy}},
+  journal = {Nature},
+  volume  = {585},
+  number  = {7825},
+  pages   = {357--362},
+  year    = {2020},
+  doi     = {10.1038/s41586-020-2649-2}
+}
+
+@misc{pep659,
+  author       = {Mark Shannon},
+  title        = {{PEP} 659 -- Specializing Adaptive Interpreter},
+  howpublished = {Python Enhancement Proposals},
+  year         = {2021},
+  note         = {\url{https://peps.python.org/pep-0659/} (accessed 2026-10-27)}
+}
+
+@misc{jep306,
+  author       = {{OpenJDK}},
+  title        = {{JEP} 306: Restore Always-Strict Floating-Point Semantics},
+  howpublished = {OpenJDK JDK Enhancement Proposal, delivered in JDK 17},
+  note         = {\url{https://openjdk.org/jeps/306} (accessed 2026-10-27)}
+}
+
+@misc{pydocsys,
+  author       = {{Python Software Foundation}},
+  title        = {sys --- System-specific parameters and functions (\texttt{sys.getsizeof}), {Python} 3.12 documentation},
+  note         = {\url{https://docs.python.org/3.12/library/sys.html} (accessed 2026-10-27)}
+}
+
+@misc{javampool,
+  author       = {{Oracle}},
+  title        = {Interface {MemoryPoolMXBean}, {Java SE} 21 \& {JDK} 21 {API} specification},
+  note         = {\url{https://docs.oracle.com/en/java/javase/21/docs/api/java.management/java/lang/management/MemoryPoolMXBean.html} (accessed 2026-10-27)}
+}
+
+@misc{gnutime,
+  author       = {{Linux man-pages project}},
+  title        = {time(1) --- run programs and summarize system resource usage},
+  note         = {\url{https://man7.org/linux/man-pages/man1/time.1.html} (accessed 2026-10-27)}
+}
+
+@misc{gccopt,
+  author       = {{Free Software Foundation}},
+  title        = {Options That Control Optimization, {GCC} 13.3.0 Manual},
+  note         = {\url{https://gcc.gnu.org/onlinedocs/gcc-13.3.0/gcc/Optimize-Options.html} (accessed 2026-10-27)}
+}

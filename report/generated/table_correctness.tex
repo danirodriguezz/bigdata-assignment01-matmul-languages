@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{Correctness tests (all implementations run through the benchmarked command-line programs). ``exact'': bit-wise equal to the expected matrix; error vs.\ NumPy: maximum absolute error and maximum ratio to the bound $2nu(|A||B|)_{ij}$ (pass if $\leq 1$).}
+\label{tab:correctness}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrlc@{}}
+\toprule
+Case & $n$ & Check (C, Java, Python) & Identical \\
+\midrule
+known\_1x1 & 1 & exact & yes \\
+known\_2x2 & 2 & exact & yes \\
+known\_3x3\_nonsymmetric & 3 & exact & yes \\
+identity\_right\_A\_I & 7 & exact & yes \\
+identity\_left\_I\_B & 7 & exact & yes \\
+zero\_A\_0 & 7 & exact & yes \\
+random\_uniform\_n7 & 7 & max err 2.2e-16, ratio 0.14 & yes \\
+random\_uniform\_n64 & 64 & max err 2.7e-15, ratio 0.01 & yes \\
+random\_uniform\_n100 & 100 & max err 3.6e-15, ratio 0.01 & yes \\
+\bottomrule
+\end{tabular}
+\end{table}

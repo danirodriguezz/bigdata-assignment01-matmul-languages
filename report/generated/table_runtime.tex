@@ -1,0 +1,21 @@
+\begin{table*}[t]
+\centering
+\caption{Kernel runtime per multiplication: median and interquartile range (IQR) over $k$ measured samples (warm-ups excluded), time per multiply--add $T/n^3$, and median peak resident set size (RSS, GNU \texttt{time}) of the whole process. Timer boundary: kernel only. ``--'': not run (see \cref{tab:limits}).}
+\label{tab:runtime}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}rrrrrrrrrrrrrrrr@{}}
+\toprule
+ & \multicolumn{5}{c}{C (gcc -O2)} & \multicolumn{5}{c}{Java (OpenJDK 21)} & \multicolumn{5}{c}{Python (CPython 3.12)} \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-11}\cmidrule(l){12-16}
+$n$ & Median & IQR & $k$ & ns/madd & RSS [MiB] & Median & IQR & $k$ & ns/madd & RSS [MiB] & Median & IQR & $k$ & ns/madd & RSS [MiB] \\
+\midrule
+64 & 187\,\textmu s & 7.59\,\textmu s & 5 & 0.71 & 2.0 & 278\,\textmu s & 16.5\,\textmu s & 5 & 1.06 & 49.3 & 11.1\,ms & 136\,\textmu s & 5 & 42.46 & 12.8 \\
+128 & 1.89\,ms & 76.1\,\textmu s & 5 & 0.90 & 2.3 & 2.13\,ms & 89.4\,\textmu s & 5 & 1.02 & 49.4 & 95.8\,ms & 10.5\,ms & 5 & 45.68 & 14.4 \\
+256 & 22.8\,ms & 226\,\textmu s & 5 & 1.36 & 3.4 & 23.6\,ms & 666\,\textmu s & 5 & 1.40 & 50.7 & 828\,ms & 88.5\,ms & 5 & 49.38 & 19.9 \\
+384 & 106\,ms & 24.5\,ms & 5 & 1.88 & 5.3 & 100\,ms & 21.8\,ms & 5 & 1.77 & 52.5 & 6.1\,s & 1.12\,s & 5 & 107.78 & 29.4 \\
+512 & 237\,ms & 8.74\,ms & 5 & 1.76 & 8.0 & 284\,ms & 36.5\,ms & 5 & 2.11 & 54.9 & 7.85\,s & 955\,ms & 5 & 58.51 & 42.5 \\
+768 & 597\,ms & 27.8\,ms & 5 & 1.32 & 15.5 & 764\,ms & 127\,ms & 5 & 1.69 & 62.7 & -- & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table*}

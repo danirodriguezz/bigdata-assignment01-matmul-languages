@@ -24,3 +24,19 @@
 | seed, checksum | input seed; sum of result (consumes the output) | – |
 | loadavg_1m | 1-minute load average when the run started | – |
 | cmd, extra_json | exact command; additional program fields (JSON) | – |
+
+## Assignment 1 specifics
+- `experiment`: `size_sweep` (controlled comparison), `rss_baseline` (n = 1), `c_flags` (optional separate gcc
+  flags study), `pilot` / `pilot_large` (pilot only, not used in the report).
+- `method`: `naive_ijk` (all languages in `size_sweep`); `naive_ijk_gcc-O0|O2|O3|O3_march_native` in `c_flags`.
+- `time_s` with `timer_boundary = kernel`: time of ONE multiplication (triple loop only). For short kernels a
+  sample is a batch of `batch` consecutive calls (stored in `extra_json`) and `time_s` = batch time / batch.
+- `process_run` is always 0 for configurations run with `split_processes` (one `run_measured.py` call per process);
+  `run_id` and `timestamp` identify each process.
+- `memory_metric`: `matrix_storage_bytes` (C, exact 3·8n² allocation), `jvm_heap_peak_used_bytes` (Java, sum of the
+  heap MemoryPoolMXBean peak usages), `pyobj_deep_size_bytes` (Python, sys.getsizeof of lists + floats; reported on
+  the first measured repetition only).
+- `checksum`: sum of all entries of C in row-major order (C prints `%.17g`, Java/Python the shortest round-trip repr:
+  compare as float64 values).
+- `size_sweep_skipped.csv`: sizes not attempted after a failure (stopping rule), with the reason.
+- `correctness_tests.json`: output of `tests/test_correctness.py` (per case: bit identity and errors vs NumPy).

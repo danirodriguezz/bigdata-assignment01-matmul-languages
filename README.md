@@ -2,44 +2,100 @@
 
 **Author:** Daniel Rodríguez Alonso · Grado en Ciencia e Ingeniería de Datos · ULPGC
 **Course:** Big Data, academic year 2026–2027 · **Report:** `deliverables/Assignment01_RodriguezAlonso_Report.pdf`
+(source `report/main.tex`) · **Repository:** <https://github.com/danirodriguezz/bigdata-assignment01-matmul-languages>
 
-**Research question.** <one or two lines>
+**Research question.** On one Intel Core i7-9750H laptop, how do the runtime and memory use of the same naive
+ijk triple-loop float64 matrix multiplication grow with the matrix size n in C (gcc -O2), Java (OpenJDK 21) and
+Python (CPython 3.12), and how large are the differences between the three implementations at equal n?
 
 ## 1. Environment used for the reported results
-See `results/environment.md` (captured automatically). Summary: <CPU, cores/threads, RAM, OS, compilers/runtimes>.
+See `results/environment.md` (captured automatically before the benchmark; `results/environment_after.md` after it).
+Summary: Intel Core i7-9750H (6 cores / 12 threads, L1d 32 KiB and L2 256 KiB per core, L3 12 MiB, turbo up to
+4.5 GHz, governor `powersave`, AC power), 15 GiB RAM, Ubuntu 24.04.5 LTS, Linux 7.0.0-38. All runs are single-threaded.
 
 ## 2. Dependencies
 | Tool | Version | Notes |
 |---|---|---|
-| gcc | | flags: |
-| OpenJDK / Maven | | JVM flags: |
-| Python | | packages pinned in `requirements-lock.txt` |
-| <framework> | | |
+| gcc | 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) | controlled comparison: `-O2 -std=c11 -Wall -Wextra`, default x86-64 target, no `-march`, no `-ffast-math` |
+| OpenJDK | 21.0.12.1 | `javac --release 21`; run with `java -Xms1g -Xmx4g -XX:+UseG1GC` (default tiered JIT) |
+| Python | CPython 3.12.3 | kernel uses the standard library only; venv packages pinned in `requirements-lock.txt` (NumPy 2.5.4, pandas 3.1.0, matplotlib 3.11.2, SciPy 1.18.1) |
+| GNU time | `/usr/bin/time` | peak RSS (`%M`) of every process, via `run_measured.py` |
+| LaTeX | TinyTeX (IEEEtran, latexmk) | only for `make report` |
+
+NumPy is used only to generate the inputs, as the reference in the correctness tests and in the analysis — never in
+a benchmarked kernel.
 
 ## 3. Reproduce
 ```bash
-make setup      # venv + builds
-make test       # correctness tests (must pass)
-make inputs     # shared inputs + checksums (seed ...)
-make pilot      # optional smoke test (~1 min)
-make bench      # full experiments (~<duration> on the machine above)
-make analysis   # tables + figures from results/raw
-make report     # PDF -> deliverables/
+make setup      # .venv + compile C (and the gcc flag variants) and Java into build/
+make test       # correctness tests of the three programs (must print ALL TESTS PASSED)
+make inputs     # shared input files data/inputs/{A,B}_n{N}_s42.bin + checksums (seed 42)
+make pilot      # optional smoke run (~1-2 min)
+make bench      # full benchmark: RSS baseline, size sweep, C flags study
+                # (~75 min of machine time on the laptop above + waiting for the lock)
+make analysis   # results/raw -> results/summary, report/figures, report/generated
+make report     # PDF -> deliverables/Assignment01_RodriguezAlonso_Report.pdf
+make package    # deliverables/Assignment01_RodriguezAlonso_Materials.zip (git archive of HEAD)
 ```
-Configuration: `configs/<file>` (sizes, repetitions, warm-ups, budgets, threads/workers).
+Single configuration by hand (example, C at n = 512):
+```bash
+build/c/matmul_naive_c --a data/inputs/A_n512_s42.bin --b data/inputs/B_n512_s42.bin --n 512 --warmup 2 --reps 1
+java -Xms1g -Xmx4g -XX:+UseG1GC -cp build/java MatMulNaive --a data/inputs/A_n512_s42.bin --b data/inputs/B_n512_s42.bin --n 512 --warmup 5 --reps 1
+.venv/bin/python src/python/matmul_naive.py --a data/inputs/A_n512_s42.bin --b data/inputs/B_n512_s42.bin --n 512 --warmup 1 --reps 1
+```
+Each program prints one JSON line per repetition (`time_s`, `timer_boundary`, `repetition`, `is_warmup`,
+`checksum`, `memory_metric`, `memory_bytes`, `batch`). Timed runs for the report always go through
+`.claude/skills/benchmark-protocol/scripts/run_measured.py` (machine-wide lock, process wall time, peak RSS,
+timeouts recorded as results), driven by `scripts/run_experiments.py`.
+
+**Configuration:** `configs/experiment.json` — sizes, warm-ups W, process runs P, in-process repetitions R,
+batch target time (`min_sample_time_s` = 0.2 s), timeout (600 s per process), memory budget (8 GB), thread
+environment variables, build commands and the JVM flags.
 
 ## 4. Data
-- Inputs: <generator, distribution, range, dtype, seeds>; checksums in `data/inputs/checksums.sha256`.
-- Raw results: `results/raw/*.csv` — schema documented in `results/README.md` (seconds, KiB, bytes).
+- **Inputs:** `scripts/gen_inputs.py` — NumPy `default_rng(42)` (PCG64), A then B, uniform [-1, 1), float64,
+  raw little-endian row-major files (no header) + JSON sidecar; SHA-256 checksums committed in
+  `data/inputs/checksums.sha256` (the `.bin` files are not committed: `make inputs` regenerates them bit-exactly).
+- **Raw results:** `results/raw/size_sweep.csv` (main experiment), `rss_baseline.csv` (n = 1),
+  `c_flags.csv` (optional separate experiment), `pilot_size_sweep.csv` (pilot, not used in the report),
+  `size_sweep_skipped.csv` (sizes not attempted by the stopping rule), `correctness_tests.json`.
+  Schema and units in `results/README.md`. Logs of the benchmark sessions in `results/logs/`.
+- **Derived:** `results/summary/*.csv` (generated by `make analysis`).
 
 ## 5. Reused materials
-<earlier assignment, files, repository + commit> (or "none").
+None — this is the first assignment. Assignments 2–4 reuse from this repository: the validated C kernel
+(`src/c/matmul_naive.{c,h}`, `src/c/matrix_io.{c,h}`), the input generator (`scripts/gen_inputs.py`), the program
+interface and the raw CSV schema.
 
 ## 6. Repository layout
-<tree>
+```
+src/c/            matmul_naive.c/.h (kernel), matrix_io.c/.h (I/O), bench_naive.c (timing driver)
+src/java/         MatMulNaive.java (kernel + I/O + timing driver)
+src/python/       matmul_naive.py (kernel + I/O + timing driver)
+tests/            test_correctness.py (identity, zero, known, random vs NumPy, cross-language bit identity)
+scripts/          gen_inputs.py, run_experiments.py, run_all_benchmarks.sh, env_extra.sh
+configs/          experiment.json
+data/inputs/      checksums.sha256 (+ generated .bin/.json inputs, git-ignored)
+results/          raw/ (CSV, committed), summary/ (generated), logs/, environment*.md
+analysis/         make_all.py (+ summarize.py, growth_fit.py, plot_style.py)
+report/           main.tex, references.bib, figures/, generated/
+docs/             experiment_plan.md, DECISIONS.md, OPEN_QUESTIONS.md, review_checklist.md, defensa_oral.md
+```
 
 ## 7. Use of Generative AI
-<same statement as in the report>
+Claude Code (Anthropic), model Claude Opus 5.5, was used as an assistant for planning the experiment, drafting and
+debugging the C, Java and Python programs, the test suite, the benchmark driver and the analysis scripts, drafting
+the LaTeX report and this README, and language revision. All measurements come from runs on the author's laptop
+recorded in `results/raw/`; no result was generated or estimated by the tool. The references were checked against
+their DOI/publisher records or official URLs. The author reviewed the code, the results and the text, and is
+responsible for the content.
+
+## 8. Publishing the repository (to be done by the author)
+```bash
+git remote add origin git@github.com:danirodriguezz/bigdata-assignment01-matmul-languages.git
+git push -u origin main
+git tag -a v1.0-submission -m "Assignment 1 submission" && git push origin v1.0-submission
+```
 
 ## License
-MIT
+MIT (see `LICENSE`).

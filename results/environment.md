@@ -1,6 +1,6 @@
 # Execution environment
 
-Captured: 2026-10-27T22:39:29+00:00 on host `daniel-Creator-15M-A9SD`
+Captured: 2026-10-27T22:47:18+00:00 on host `daniel-Creator-15M-A9SD`
 
 ## CPU (lscpu)
 
@@ -11,7 +11,7 @@ Model name:                              Intel(R) Core(TM) i7-9750H CPU @ 2.60GH
 Thread(s) per core:                      2
 Core(s) per socket:                      6
 Socket(s):                               1
-CPU(s) scaling MHz:                      87%
+CPU(s) scaling MHz:                      78%
 CPU max MHz:                             4500.0000
 CPU min MHz:                             800.0000
 L1d cache:                               192 KiB (6 instances)
@@ -35,8 +35,8 @@ AC power online (1=plugged): 1
 
 ```
                total       usado       libre  compartido   búf/caché  disponible
-Mem:            15Gi       4,8Gi       3,5Gi       693Mi       8,1Gi        10Gi
-Inter:         7,6Gi          0B       7,6Gi
+Mem:            15Gi       4,9Gi       1,8Gi       594Mi       9,7Gi        10Gi
+Inter:         7,6Gi       320Ki       7,6Gi
 ```
 
 ## Operating system
@@ -56,7 +56,7 @@ java          openjdk version "21.0.12.1" 2026-08-18
 javac         javac 21.0.12.1
 mvn           Apache Maven 3.8.7
 python3       Python 3.12.3
-pip           pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)
+pip           pip 24.0 from /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/.venv/lib/python3.12/site-packages/pip (python 3.12)
 docker        Docker version 28.3.3, build 980b856
 mpicc         not installed
 mpirun        not installed
@@ -64,83 +64,23 @@ spark-submit  not installed
 perf          perf version 7.0.14
 ```
 
-## Python packages (active interpreter: /home/daniel/.pyenv/shims/python3)
+## Python packages (active interpreter: /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/.venv/bin/python3)
 
 ```
-attrs==23.2.0
-Babel==2.10.3
-bcc==0.29.1
-blinker==1.7.0
-Brlapi==0.8.5
-certifi==2023.11.17
-chardet==5.2.0
-charset-normalizer==3.4.7
-click==8.1.6
-cloud-init==26.1
-colorama==0.4.6
-command-not-found==0.3
-configobj==5.0.8
-cryptography==41.0.7
-cupshelpers==1.0
-dbus-python==1.3.2
-defer==1.0.6
-distro==1.9.0
-distro-info==1.7+build1
-GDAL==3.8.4
-gyp==0.1
-httplib2==0.20.4
-idna==3.6
-Jinja2==3.1.2
-jsonpatch==1.32
-jsonpointer==2.0
-jsonschema==4.10.3
-language-selector==0.1
-launchpadlib==1.11.0
-lazr.restfulclient==0.14.6
-lazr.uri==1.0.6
-louis==3.29.0
-markdown-it-py==3.0.0
-MarkupSafe==2.1.5
-mdurl==0.1.2
-netaddr==0.8.0
-numpy==1.26.4
-oauthlib==3.2.2
-olefile==0.46
-packaging==24.0
-pexpect==4.9.0
-pillow==10.2.0
-ptyprocess==0.7.0
-pycairo==1.25.1
-pycups==2.0.1
-Pygments==2.17.2
-PyGObject==3.48.2
-PyJWT==2.7.0
-pyparsing==3.1.1
-pyrsistent==0.20.0
-pyserial==3.5
-python-apt==2.7.7+ubuntu5.3
-python-dateutil==2.8.2
-python-debian==0.1.49+ubuntu2
-pytz==2024.1
-pyxdg==0.28
-PyYAML==6.0.1
-reportlab==4.5.0
-requests==2.31.0
-rich==13.7.1
-screen-resolution-extra==0.0.0
-setuptools==68.1.2
-six==1.16.0
-systemd-python==235
-typing_extensions==4.10.0
-ubuntu-drivers-common==0.0.0
-ubuntu-pro-client==8001
-ufw==0.36.2
-unattended-upgrades==0.1
-urllib3==2.0.7
-wadllib==1.3.6
-wheel==0.42.0
-xdg==5
-xkit==0.0.0
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.68.0
+kiwisolver==1.5.1
+matplotlib==3.11.2
+numpy==2.5.4
+packaging==26.3
+pandas==3.1.0
+pillow==13.0.0
+pyparsing==3.3.3
+python-dateutil==3.0.0
+scipy==1.18.1
+six==1.17.0
+tzdata==2026.5
 ```
 
 ## Threading-related environment variables
@@ -152,5 +92,22 @@ xkit==0.0.0
 ## Load at capture time
 
 ```
- 22:39:30 up  6:25,  1 user,  load average: 1,08, 0,48, 0,24
+ 22:47:19 up  6:33,  1 user,  load average: 2,11, 1,90, 1,06
+```
+
+## Assignment 1 build and runtime settings
+
+```
+C compiler:      gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+C flags:         -O2 -std=c11 -Wall -Wextra (default x86-64 target, no -march, no -ffast-math, single thread)
+gcc -O2 target:   -march= 		x86-64
+JDK:             OpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)
+JVM:             OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)
+JVM flags:       -Xms1g -Xmx4g -XX:+UseG1GC (default tiered JIT compilation)
+Java GC/JIT threads: JVM default (background threads; the kernel itself runs on the main thread)
+Python (bench):  CPython 3.12.3 - /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/.venv/bin/python
+Python packages (venv): contourpy==1.4.0 cycler==0.12.1 fonttools==4.68.0 kiwisolver==1.5.1 matplotlib==3.11.2 numpy==2.5.4 packaging==26.3 pandas==3.1.0 pillow==13.0.0 pyparsing==3.3.3 python-dateutil==3.0.0 scipy==1.18.1 six==1.17.0 tzdata==2026.5 
+perf_event_paranoid: 4 (hardware counters not available)
+GNU time:        time (GNU Time) UNKNOWN
+Thread env for runs: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 ```
