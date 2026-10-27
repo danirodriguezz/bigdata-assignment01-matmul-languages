@@ -1,0 +1,59 @@
+[2026-10-27T22:44:15] run java n=64 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.401s peak_rss=50548 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:15] done java n=64 rc=0 in 0.4s (elapsed 0.0 min)
+[2026-10-27T22:44:15] run c n=64 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.411s peak_rss=2108 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:16] done c n=64 rc=0 in 0.5s (elapsed 0.0 min)
+[2026-10-27T22:44:16] run python n=64 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.501s peak_rss=13280 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:16] done python n=64 rc=0 in 0.5s (elapsed 0.0 min)
+[2026-10-27T22:44:16] run python n=128 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.804s peak_rss=14800 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:17] done python n=128 rc=0 in 0.8s (elapsed 0.0 min)
+[2026-10-27T22:44:17] run java n=128 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.471s peak_rss=50448 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:18] done java n=128 rc=0 in 0.5s (elapsed 0.0 min)
+[2026-10-27T22:44:18] run c n=128 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.441s peak_rss=2312 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:18] done c n=128 rc=0 in 0.5s (elapsed 0.1 min)
+[2026-10-27T22:44:18] run java n=256 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.592s peak_rss=51452 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:19] done java n=256 rc=0 in 0.6s (elapsed 0.1 min)
+[2026-10-27T22:44:19] run python n=256 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=4.782s peak_rss=20440 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:24] done python n=256 rc=0 in 4.8s (elapsed 0.1 min)
+[2026-10-27T22:44:24] run c n=256 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=0.563s peak_rss=3480 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:24] done c n=256 rc=0 in 0.6s (elapsed 0.2 min)
+[2026-10-27T22:44:24] run java n=512 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=1.496s peak_rss=56324 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:44:26] done java n=512 rc=0 in 1.5s (elapsed 0.2 min)
+[2026-10-27T22:44:26] run python n=512 W=3 R=2 P=1
+[run_measured] measured run 0: status=ok wall=47.901s peak_rss=43584 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:45:14] done python n=512 rc=0 in 48.0s (elapsed 1.0 min)
+[2026-10-27T22:45:14] run c n=512 W=3 R=2 P=1
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=1.442s peak_rss=8044 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:45:16] done c n=512 rc=0 in 1.8s (elapsed 1.0 min)
+[2026-10-27T22:45:16] experiment pilot finished in 1.0 min
+[2026-10-27T22:45:16] run java n=1024 W=1 R=1 P=1
+[run_measured] measured run 0: status=ok wall=11.268s peak_rss=74640 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:45:27] done java n=1024 rc=0 in 11.3s (elapsed 0.2 min)
+[2026-10-27T22:45:27] run c n=1024 W=1 R=1 P=1
+[run_measured] measured run 0: status=ok wall=3.982s peak_rss=26460 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/pilot_size_sweep.csv
+[2026-10-27T22:45:31] done c n=1024 rc=0 in 4.0s (elapsed 0.3 min)
+[2026-10-27T22:45:31] experiment pilot_large finished in 0.3 min

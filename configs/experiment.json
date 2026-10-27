@@ -1,0 +1,270 @@
+{
+  "_comment": "Assignment 1 experiment configuration. Edit sizes/repetitions/budgets here; scripts/run_experiments.py reads it. For each (language, n) the first rule with n <= max_n gives W (in-process warm-ups), R (measured in-process reps) and P (separate process runs; k = P*R measured samples). split_processes=true releases the machine-wide lock between process runs.",
+  "assignment": "A1",
+  "inputs": {
+    "seed": 42,
+    "sizes": [
+      1,
+      64,
+      128,
+      256,
+      384,
+      512,
+      768,
+      1024,
+      1536,
+      2048
+    ]
+  },
+  "budgets": {
+    "timeout_s": 600,
+    "memory_budget_gib": 8,
+    "total_benchmark_minutes": 90
+  },
+  "languages": {
+    "c": {
+      "build": "gcc -O2 -std=c11 -Wall -Wextra -o build/c/matmul_naive_c src/c/bench_naive.c src/c/matmul_naive.c src/c/matrix_io.c -lm",
+      "cmd": [
+        "build/c/matmul_naive_c"
+      ],
+      "method": "naive_ijk"
+    },
+    "java": {
+      "build": "javac --release 21 -d build/java src/java/MatMulNaive.java",
+      "cmd": [
+        "java",
+        "-Xms1g",
+        "-Xmx4g",
+        "-XX:+UseG1GC",
+        "-cp",
+        "build/java",
+        "MatMulNaive"
+      ],
+      "method": "naive_ijk"
+    },
+    "python": {
+      "build": "(interpreted; no build step)",
+      "cmd": [
+        ".venv/bin/python",
+        "src/python/matmul_naive.py"
+      ],
+      "method": "naive_ijk"
+    },
+    "c_O0": {
+      "build": "gcc -O0 -std=c11 -Wall -Wextra -o build/c/matmul_naive_c_O0 src/c/bench_naive.c src/c/matmul_naive.c src/c/matrix_io.c -lm",
+      "cmd": [
+        "build/c/matmul_naive_c_O0"
+      ],
+      "language_label": "c",
+      "method": "naive_ijk_gcc-O0"
+    },
+    "c_O3": {
+      "build": "gcc -O3 -std=c11 -Wall -Wextra -o build/c/matmul_naive_c_O3 src/c/bench_naive.c src/c/matmul_naive.c src/c/matrix_io.c -lm",
+      "cmd": [
+        "build/c/matmul_naive_c_O3"
+      ],
+      "language_label": "c",
+      "method": "naive_ijk_gcc-O3"
+    },
+    "c_O3_native": {
+      "build": "gcc -O3 -march=native -std=c11 -Wall -Wextra -o build/c/matmul_naive_c_O3_native src/c/bench_naive.c src/c/matmul_naive.c src/c/matrix_io.c -lm",
+      "cmd": [
+        "build/c/matmul_naive_c_O3_native"
+      ],
+      "language_label": "c",
+      "method": "naive_ijk_gcc-O3_march_native"
+    },
+    "c_O2": {
+      "build": "gcc -O2 -std=c11 -Wall -Wextra -o build/c/matmul_naive_c src/c/bench_naive.c src/c/matmul_naive.c src/c/matrix_io.c -lm   (same binary as the controlled comparison)",
+      "cmd": [
+        "build/c/matmul_naive_c"
+      ],
+      "language_label": "c",
+      "method": "naive_ijk_gcc-O2"
+    }
+  },
+  "common_args": {
+    "min_sample_time_s": 0.2
+  },
+  "env": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "experiments": {
+    "pilot": {
+      "output": "results/raw/pilot_size_sweep.csv",
+      "sizes": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "languages": [
+        "c",
+        "java",
+        "python"
+      ],
+      "rules": [
+        {
+          "max_n": 1000000,
+          "warmup": 3,
+          "reps": 2,
+          "process_runs": 1
+        }
+      ]
+    },
+    "pilot_large": {
+      "output": "results/raw/pilot_size_sweep.csv",
+      "sizes": [
+        1024
+      ],
+      "languages": [
+        "c",
+        "java"
+      ],
+      "rules": [
+        {
+          "max_n": 1000000,
+          "warmup": 1,
+          "reps": 1,
+          "process_runs": 1
+        }
+      ]
+    },
+    "rss_baseline": {
+      "output": "results/raw/rss_baseline.csv",
+      "sizes": [
+        1
+      ],
+      "languages": [
+        "c",
+        "java",
+        "python"
+      ],
+      "rules": [
+        {
+          "max_n": 1,
+          "warmup": 0,
+          "reps": 1,
+          "process_runs": 5
+        }
+      ]
+    },
+    "size_sweep": {
+      "output": "results/raw/size_sweep.csv",
+      "sizes": [
+        64,
+        128,
+        256,
+        384,
+        512,
+        768,
+        1024,
+        1536,
+        2048
+      ],
+      "languages": [
+        "c",
+        "java",
+        "python"
+      ],
+      "rules": [],
+      "language_rules": {
+        "c": [
+          {
+            "max_n": 512,
+            "warmup": 2,
+            "reps": 1,
+            "process_runs": 5
+          },
+          {
+            "max_n": 768,
+            "warmup": 1,
+            "reps": 1,
+            "process_runs": 5
+          },
+          {
+            "max_n": 4096,
+            "warmup": 0,
+            "reps": 1,
+            "process_runs": 5
+          }
+        ],
+        "java": [
+          {
+            "max_n": 512,
+            "warmup": 5,
+            "reps": 1,
+            "process_runs": 5
+          },
+          {
+            "max_n": 1024,
+            "warmup": 2,
+            "reps": 1,
+            "process_runs": 5
+          },
+          {
+            "max_n": 4096,
+            "warmup": 1,
+            "reps": 1,
+            "process_runs": 5,
+            "split_processes": true
+          }
+        ],
+        "python": [
+          {
+            "max_n": 512,
+            "warmup": 1,
+            "reps": 1,
+            "process_runs": 5
+          },
+          {
+            "max_n": 1024,
+            "warmup": 0,
+            "reps": 1,
+            "process_runs": 5,
+            "split_processes": true
+          },
+          {
+            "max_n": 1536,
+            "warmup": 0,
+            "reps": 1,
+            "process_runs": 3,
+            "split_processes": true
+          },
+          {
+            "max_n": 4096,
+            "warmup": 0,
+            "reps": 1,
+            "process_runs": 1,
+            "split_processes": true
+          }
+        ]
+      }
+    },
+    "c_flags": {
+      "output": "results/raw/c_flags.csv",
+      "_comment": "Separate, optional experiment (NOT part of the controlled comparison): same C source, other gcc optimisation flags.",
+      "sizes": [
+        256,
+        512,
+        1024
+      ],
+      "languages": [
+        "c_O0",
+        "c_O2",
+        "c_O3",
+        "c_O3_native"
+      ],
+      "rules": [
+        {
+          "max_n": 4096,
+          "warmup": 1,
+          "reps": 1,
+          "process_runs": 5
+        }
+      ]
+    }
+  }
+}

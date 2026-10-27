@@ -1,0 +1,14 @@
+{
+  "n": 128,
+  "seed": 42,
+  "dtype": "float64",
+  "byte_order": "little-endian",
+  "layout": "row-major, no header",
+  "generator": "numpy 2.5.4 default_rng (PCG64)",
+  "distribution": "uniform[-1, 1)",
+  "draw_order": "A then B from the same generator",
+  "sha256": {
+    "A_n128_s42.bin": "f02d8fdbc9614d775f6306af1c2f5044f4adc8f42e5990ee0b035e630fa469a7",
+    "B_n128_s42.bin": "1be6c94d6ad216d747935b31a7e5cb78f198bdc9025727d482a7fc2e4e1feb38"
+  }
+}
