@@ -178,3 +178,9 @@ environment written to results/environment.md
 [run_measured] measured run 0: status=ok wall=35.181s peak_rss=81684 KiB
 [run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
 [run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=36.877s peak_rss=82072 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=33.345s peak_rss=81808 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
