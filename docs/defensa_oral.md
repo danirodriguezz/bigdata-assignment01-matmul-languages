@@ -28,7 +28,32 @@ Guion para explicar el trabajo en 5–7 minutos y responder preguntas. Todos los
    resultado, nunca con un tiempo inventado.
 
 ## 3. Resultados más informativos (2 min)
-%%RESULTADOS%%
+(Valores de `report/generated/numbers.tex` / `results/summary/`; k = 5 procesos salvo Python n = 1536, k = 3.)
+
+1. **Corrección**: 9/9 tests pasados; C, Java y Python **bit a bit idénticos**; error máximo frente a NumPy
+   3.55e-15 (0.14 veces la cota). Checksums iguales entre lenguajes en los 9 tamaños.
+2. **Tiempo (Tabla III, Fig. 1)**: a n = 1536 → C 9.9 s, Java 24.6 s, Python 280 s; a n = 2048 → C 38.8 s,
+   Java 64 s, Python **timeout** (> 600 s, registrado sin tiempo). n máximo factible de Python: 1536.
+3. **Crecimiento (Tabla IV)**: exponente b (n = 256…2048): C 3.45 [3.05, 3.86], Java 3.86 [3.45, 4.27];
+   Python 3.11 [2.58, 3.65] (n = 256…1536). Solo Python es compatible con b = 3.
+   Motivo: el coste por multiplicación-suma sube con n en C (0.71 ns a n = 64 → 4.51 ns a n = 2048) y en Java
+   (1.02 → 7.44 ns); en Python es ~42–77 ns, dominado por el intérprete.
+   Los saltos de C coinciden con el tamaño de B (8n² B) frente a L1 (32 KiB, n = 64), L2 (256 KiB, n = 128) y
+   L3 (12 MiB, se supera en n = 1536) → explicación **plausible, no medida** (sin perf).
+4. **Comparación a igual n**: Java ≈ C para n = 128–384 (los IC bootstrap incluyen 1); Java 2.21× (n = 1024),
+   2.48× (1536), 1.65× (2048) más lento. Python 28–60× más lento que C (la razón baja con n porque C pasa a
+   estar limitado por memoria y Python por el intérprete).
+5. **Memoria (Tabla VI, Fig. 3)**: línea base a n = 1: C 1.9 MiB, Java 48.2 MiB, Python 12.5 MiB. A n = 1536,
+   RSS − base: C 54.0 MiB (= 3·8n² exacto), Java 94.2 MiB, Python 270.9 MiB (≈ 5× lo denso).
+   `sys.getsizeof`: 32 B/elemento en Python (24 B float + 8 B puntero) frente a 8 B en C.
+6. **JIT de Java (Fig. 4)**: la primera iteración tarda 6.6× la mediana a n = 64 y 1.01× a n = 2048.
+   C y Python no muestran efecto de calentamiento.
+7. **Experimento aparte, flags de gcc (Tabla VII, n = 1024)**: -O0 2.75× más lento que -O2; -O3 y
+   -O3 -march=native solo ~4 % más rápidos, con checksums idénticos. Explicación plausible: sin
+   `-fassociative-math` (por defecto) gcc no puede reordenar la suma → no vectoriza la reducción.
+8. **Sesiones**: el barrido se hizo en 3 sesiones (27-oct noche con carga alta; 29-oct mañana y tarde, recién
+   arrancado). El mismo binario -O2 a n = 1024 dio 2.02 s (sesión 2) y 1.57 s (sesión 3): la variación entre
+   sesiones puede superar el IQR dentro de una sesión → lo cuento como limitación.
 
 ## 4. Limitaciones (45 s)
 - Una sola máquina (portátil): governor `powersave` + turbo → la frecuencia depende de la temperatura y de
@@ -37,6 +62,7 @@ Guion para explicar el trabajo en 5–7 minutos y responder preguntas. Todos los
 - Sin contadores hardware (`perf` bloqueado: `perf_event_paranoid = 4`) → las explicaciones de caché/TLB son
   plausibles y coherentes con T/n³, pero **no están medidas directamente** (las llamo conjeturas).
 - Menos repeticiones en los casos caros (Python n = 1536: k = 3; n = 2048: un intento) por el presupuesto de 90 min.
+- Tres sesiones de medida con cargas distintas (ver punto 8 de resultados).
 - Las métricas internas de memoria (heap de la JVM, `sys.getsizeof`, tamaño de arrays en C) miden cosas
   distintas: solo comparo entre lenguajes el pico de RSS.
 - Resultados válidos solo para estas versiones/flags (gcc -O2, OpenJDK 21, CPython 3.12): no digo que "C es más

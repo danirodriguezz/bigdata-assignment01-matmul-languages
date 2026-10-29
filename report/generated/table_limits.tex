@@ -2,14 +2,15 @@
 \centering
 \caption{Feasibility limits under the declared budgets (600\,s per process run, 8\,GB memory, $\leq$\,90\,min total benchmark time).}
 \label{tab:limits}
-\small
+\footnotesize
 \begin{tabular}{@{}lrrl@{}}
 \toprule
-Impl. & Largest completed $n$ & Largest attempted $n$ & Outcome above \\
+Impl. & Largest & Largest & Outcome \\
+ & completed $n$ & attempted $n$ & \\
 \midrule
-C & 768 & 768 & none (end of declared sequence) \\
-Java & 768 & 768 & none (end of declared sequence) \\
-Python & 512 & 512 & none (end of declared sequence) \\
+C & 2048 & 2048 & none (end of sequence) \\
+Java & 2048 & 2048 & none (end of sequence) \\
+Python & 1536 & 2048 & timeout at $n=2048$ \\
 \bottomrule
 \end{tabular}
 \end{table}

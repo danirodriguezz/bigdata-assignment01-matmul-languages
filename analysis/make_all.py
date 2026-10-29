@@ -15,6 +15,7 @@ import json
 import sys
 from pathlib import Path
 
+import matplotlib.ticker
 import numpy as np
 import pandas as pd
 
@@ -320,10 +321,10 @@ for lang in LANGS:
     ax = ax2 if lang == "python" else ax1
     ax.errorbar(med.index, med, yerr=[med - q1, q3 - med], color=c, marker=m, linestyle=ls, label=NAME[lang],
                 markersize=4)
-for ax in (ax1, ax2):
+for ax, loc in ((ax1, "upper left"), (ax2, "lower right")):  # lower right: keeps the Python points visible
     ax.set_xscale("log", base=2)
     ax.set_ylim(bottom=0)
-    ax.legend(loc="upper left", frameon=False)
+    ax.legend(loc=loc, frameon=False)
     ax.minorticks_off()
 ax2.set_xticks(sorted(summary.n.unique()))
 ax2.set_xticklabels([str(int(v)) for v in sorted(summary.n.unique())], rotation=45)
@@ -380,7 +381,7 @@ ax.set_xticklabels([str(int(v)) for v in xs], rotation=45)
 ax.minorticks_off()
 ax.set_xlabel("Matrix size $n$")
 ax.set_ylabel("Median peak RSS [MiB]")
-ax.legend(loc="upper left", frameon=False, fontsize=6)
+ax.legend(loc="lower right", frameon=False, fontsize=6)  # empty corner: no curve crosses the legend
 savefig(fig, FIG / "memory_rss")
 
 lines = [r"\begin{table}[t]", r"\centering",
@@ -389,7 +390,7 @@ lines = [r"\begin{table}[t]", r"\centering",
          r"Language metric: C \texttt{matrix\_storage\_bytes} (exact allocation), Java \texttt{jvm\_heap\_peak\_used\_bytes} "
          r"(MemoryPoolMXBean, heap pools), Python \texttt{pyobj\_deep\_size\_bytes} (\texttt{sys.getsizeof}). "
          r"The metrics measure different things and are not directly comparable.}",
-         r"\label{tab:memory}", r"\footnotesize", r"\setlength{\tabcolsep}{3pt}",
+         r"\label{tab:memory}", r"\footnotesize", r"\setlength{\tabcolsep}{2.5pt}",
          r"\begin{tabular}{@{}lrrrrrr@{}}", r"\toprule",
          r"Impl. & $n$ & RSS & Baseline & RSS$-$base & $3\cdot8n^2$ & Lang. metric (B/elem.) \\",
          r" & & [MiB] & [MiB] & [MiB] & [MiB] & [MiB] \\", r"\midrule"]
@@ -411,7 +412,7 @@ w.to_csv(SUM / "java_warmup.csv", index=False)
 first = w[w.repetition == 0].set_index("n").rel
 macro("JavaFirstIterMaxRel", f"{first.max():.2g}")
 macro("JavaFirstIterMaxRelN", str(int(first.idxmax())))
-macro("JavaFirstIterLargeRel", f"{first.loc[first.index.max()]:.2g}")
+macro("JavaFirstIterLargeRel", f"{first.loc[first.index.max()]:.2f}")
 macro("JavaFirstIterLargeN", str(int(first.index.max())))
 for lang in ("c", "python"):
     wl = sweep[(sweep.status == "ok") & (sweep.language == lang)]
@@ -436,15 +437,19 @@ ax.set_yscale("log")
 ax.set_xlabel("In-process iteration (last point: measured steady-state sample)")
 ax.set_ylabel("Time / median measured")
 ax.set_xticks(range(1, 7))
-ax.legend(frameon=False, ncol=3)
+ax.set_ylim(0.8, 14)  # head-room above the curves for the legend
+ax.set_yticks([1, 2, 4, 6, 10])  # plain tick labels instead of 6x10^0
+ax.yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter("%g"))
+ax.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+ax.legend(loc="upper right", frameon=False, ncol=3)
 savefig(fig, FIG / "java_warmup")
 
 # ----------------------------------------------------------------------------- limits table
 lines = [r"\begin{table}[t]", r"\centering",
          r"\caption{Feasibility limits under the declared budgets (600\,s per process run, 8\,GB memory, "
          r"$\leq$\,90\,min total benchmark time).}",
-         r"\label{tab:limits}", r"\small", r"\begin{tabular}{@{}lrrl@{}}", r"\toprule",
-         r"Impl. & Largest completed $n$ & Largest attempted $n$ & Outcome above \\", r"\midrule"]
+         r"\label{tab:limits}", r"\footnotesize", r"\begin{tabular}{@{}lrrl@{}}", r"\toprule",
+         r"Impl. & Largest & Largest & Outcome \\", r" & completed $n$ & attempted $n$ & \\", r"\midrule"]
 for _, r in limits.iterrows():
     out = []
     if r.failed_n:
@@ -452,7 +457,7 @@ for _, r in limits.iterrows():
     if r.not_attempted_n:
         out.append(f"not attempted: $n={r.not_attempted_n}$")
     if not out:
-        out.append("none (end of declared sequence)")
+        out.append("none (end of sequence)")
     lines.append(f"{SHORT[r.language]} & {r.largest_completed_n} & {r.largest_attempted_n} & {'; '.join(out)} \\\\")
 lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
 (GEN / "table_limits.tex").write_text("\n".join(lines) + "\n")
@@ -461,6 +466,12 @@ macro("PyFailN", str(int(fail_py.n.min())) if len(fail_py) else "none")
 macro("PyFailType", fail_py.failed_statuses.iloc[0] if len(fail_py) else "none")
 macro("PyFailWall", f"{measured[(measured.language == 'python') & (measured.status != 'ok')].process_wall_s.astype(float).max():.0f}"
       if len(fail_py) else "none")
+# Consistency check (not a measurement): time per multiply-add at the largest completed Python size times n^3
+# of the failed size. Used only to discuss whether the timeout agrees with the measured trend.
+if len(fail_py):
+    last_py = summary[(summary.language == "python") & (summary.n_ok > 0)].sort_values("n").iloc[-1]
+    macro("PyExtrapFromN", str(int(last_py.n)))
+    macro("PyExtrapSeconds", f"{last_py.ns_per_madd_median * 1e-9 * float(fail_py.n.min()) ** 3:.0f}")
 
 # ----------------------------------------------------------------------------- correctness table
 cor = json.loads((RAW / "correctness_tests.json").read_text())
@@ -504,7 +515,7 @@ if flags_path.exists():
     lines = [r"\begin{table}[t]", r"\centering",
              r"\caption{Separate experiment (not part of the language comparison): same C source compiled with "
              r"different gcc flags. Median [IQR] kernel runtime, $k=5$ process runs, 1 warm-up each.}",
-             r"\label{tab:cflags}", r"\footnotesize", r"\setlength{\tabcolsep}{3pt}",
+             r"\label{tab:cflags}", r"\scriptsize", r"\setlength{\tabcolsep}{3pt}",
              r"\begin{tabular}{@{}l" + "r" * len(ns) + r"@{}}", r"\toprule",
              "gcc flags & " + " & ".join(f"$n={int(n)}$" for n in ns) + r" \\", r"\midrule"]
     for mth in order:
@@ -520,6 +531,7 @@ if flags_path.exists():
     nmax = max(ns)
     med = fok[fok.n == nmax].groupby("method").time_s.median()
     macro("CflagsN", str(int(nmax)))
+    macro("CflagsOtwoMedian", fmt_s(med["naive_ijk_gcc-O2"]))
     macro("CflagsOzeroOverOtwo", f"{med['naive_ijk_gcc-O0'] / med['naive_ijk_gcc-O2']:.3g}")
     macro("CflagsOthreeOverOtwo", f"{med['naive_ijk_gcc-O3'] / med['naive_ijk_gcc-O2']:.3g}")
     macro("CflagsNativeOverOtwo", f"{med['naive_ijk_gcc-O3_march_native'] / med['naive_ijk_gcc-O2']:.3g}")

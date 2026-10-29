@@ -1,0 +1,176 @@
+[2026-10-29T16:52:49+00:00] RESUME start; uptime:  16:52:49 up 1 min,  1 user,  load average: 1,29, 0,50, 0,18
+[run_measured] measured run 0: status=ok wall=283.119s peak_rss=289836 KiB
+[run_measured] wrote 1 rows to results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=280.709s peak_rss=290196 KiB
+[run_measured] wrote 1 rows to results/raw/size_sweep.csv
+[2026-10-29T17:02:16] run java n=1536 W=1 R=1 P=5 (lock released between processes)
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=49.211s peak_rss=145804 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=49.540s peak_rss=145772 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=48.519s peak_rss=145912 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=49.305s peak_rss=146104 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=51.140s peak_rss=145772 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T17:06:42] done java n=1536 rc=0 in 265.6s (elapsed 4.4 min)
+[2026-10-29T17:06:42] run c n=1536 W=0 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=9.203s peak_rss=57196 KiB
+[run_measured] measured run 1: status=ok wall=9.932s peak_rss=57200 KiB
+[run_measured] measured run 2: status=ok wall=9.666s peak_rss=57184 KiB
+[run_measured] measured run 3: status=ok wall=10.119s peak_rss=57056 KiB
+[run_measured] measured run 4: status=ok wall=10.819s peak_rss=57084 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T17:07:35] done c n=1536 rc=0 in 53.2s (elapsed 5.3 min)
+[2026-10-29T17:07:35] experiment size_sweep finished in 5.3 min
+[2026-10-29T17:07:35] run java n=2048 W=1 R=1 P=5 (lock released between processes)
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=132.118s peak_rss=188564 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=128.856s peak_rss=189124 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=125.592s peak_rss=188924 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=126.695s peak_rss=189464 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=130.491s peak_rss=189564 KiB
+[run_measured] wrote 2 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T17:20:49] done java n=2048 rc=0 in 794.0s (elapsed 13.2 min)
+[2026-10-29T17:20:49] run c n=2048 W=0 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=38.831s peak_rss=100204 KiB
+[run_measured] measured run 1: status=ok wall=39.169s peak_rss=100232 KiB
+[run_measured] measured run 2: status=ok wall=38.204s peak_rss=100112 KiB
+[run_measured] measured run 3: status=ok wall=38.848s peak_rss=99984 KiB
+[run_measured] measured run 4: status=ok wall=38.256s peak_rss=100208 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T17:24:31] done c n=2048 rc=0 in 221.5s (elapsed 16.9 min)
+[2026-10-29T17:24:31] run python n=2048 W=0 R=1 P=1 (lock released between processes)
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=timeout wall=600.007s peak_rss=None KiB
+[run_measured] stopping this configuration after a failure (recorded as a result, no time invented)
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T17:34:55] done python n=2048 rc=3 in 624.1s (elapsed 27.3 min)
+[2026-10-29T17:34:55] experiment size_sweep finished in 27.3 min
+[2026-10-29T17:34:55] run c_O3 n=256 W=1 R=1 P=5
+[run_measured] measured run 0: status=ok wall=0.239s peak_rss=3436 KiB
+[run_measured] measured run 1: status=ok wall=0.228s peak_rss=3600 KiB
+[run_measured] measured run 2: status=ok wall=0.229s peak_rss=3588 KiB
+[run_measured] measured run 3: status=ok wall=0.228s peak_rss=3588 KiB
+[run_measured] measured run 4: status=ok wall=0.229s peak_rss=3432 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:34:56] done c_O3 n=256 rc=0 in 1.2s (elapsed 0.0 min)
+[2026-10-29T17:34:56] run c_O2 n=256 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.239s peak_rss=3588 KiB
+[run_measured] measured run 1: status=ok wall=0.239s peak_rss=3428 KiB
+[run_measured] measured run 2: status=ok wall=0.239s peak_rss=3428 KiB
+[run_measured] measured run 3: status=ok wall=0.229s peak_rss=3596 KiB
+[run_measured] measured run 4: status=ok wall=0.229s peak_rss=3432 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:34:57] done c_O2 n=256 rc=0 in 1.2s (elapsed 0.0 min)
+[2026-10-29T17:34:57] run c_O3_native n=256 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.239s peak_rss=3024 KiB
+[run_measured] measured run 1: status=ok wall=0.239s peak_rss=3024 KiB
+[run_measured] measured run 2: status=ok wall=0.239s peak_rss=3024 KiB
+[run_measured] measured run 3: status=ok wall=0.229s peak_rss=3024 KiB
+[run_measured] measured run 4: status=ok wall=0.229s peak_rss=3024 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:34:59] done c_O3_native n=256 rc=0 in 1.3s (elapsed 0.1 min)
+[2026-10-29T17:34:59] run c_O0 n=256 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.310s peak_rss=3424 KiB
+[run_measured] measured run 1: status=ok wall=0.309s peak_rss=3588 KiB
+[run_measured] measured run 2: status=ok wall=0.308s peak_rss=3420 KiB
+[run_measured] measured run 3: status=ok wall=0.319s peak_rss=3604 KiB
+[run_measured] measured run 4: status=ok wall=0.319s peak_rss=3572 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:01] done c_O0 n=256 rc=0 in 2.0s (elapsed 0.1 min)
+[2026-10-29T17:35:01] run c_O3_native n=512 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.542s peak_rss=7632 KiB
+[run_measured] measured run 1: status=ok wall=0.540s peak_rss=7632 KiB
+[run_measured] measured run 2: status=ok wall=0.552s peak_rss=7632 KiB
+[run_measured] measured run 3: status=ok wall=0.532s peak_rss=7632 KiB
+[run_measured] measured run 4: status=ok wall=0.552s peak_rss=7632 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:05] done c_O3_native n=512 rc=0 in 3.8s (elapsed 0.2 min)
+[2026-10-29T17:35:05] run c_O3 n=512 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.542s peak_rss=8084 KiB
+[run_measured] measured run 1: status=ok wall=0.552s peak_rss=8048 KiB
+[run_measured] measured run 2: status=ok wall=0.542s peak_rss=8036 KiB
+[run_measured] measured run 3: status=ok wall=0.542s peak_rss=8044 KiB
+[run_measured] measured run 4: status=ok wall=0.552s peak_rss=8192 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:08] done c_O3 n=512 rc=0 in 3.1s (elapsed 0.2 min)
+[2026-10-29T17:35:08] run c_O0 n=512 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.986s peak_rss=8196 KiB
+[run_measured] measured run 1: status=ok wall=0.976s peak_rss=8208 KiB
+[run_measured] measured run 2: status=ok wall=1.016s peak_rss=8040 KiB
+[run_measured] measured run 3: status=ok wall=0.996s peak_rss=7920 KiB
+[run_measured] measured run 4: status=ok wall=1.006s peak_rss=8204 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:14] done c_O0 n=512 rc=0 in 6.2s (elapsed 0.3 min)
+[2026-10-29T17:35:14] run c_O2 n=512 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=0.552s peak_rss=8032 KiB
+[run_measured] measured run 1: status=ok wall=0.552s peak_rss=8180 KiB
+[run_measured] measured run 2: status=ok wall=0.542s peak_rss=8084 KiB
+[run_measured] measured run 3: status=ok wall=0.552s peak_rss=8048 KiB
+[run_measured] measured run 4: status=ok wall=0.552s peak_rss=8024 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:18] done c_O2 n=512 rc=0 in 4.2s (elapsed 0.4 min)
+[2026-10-29T17:35:18] run c_O2 n=1024 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=3.119s peak_rss=26464 KiB
+[run_measured] measured run 1: status=ok wall=3.099s peak_rss=26476 KiB
+[run_measured] measured run 2: status=ok wall=3.130s peak_rss=26468 KiB
+[run_measured] measured run 3: status=ok wall=3.169s peak_rss=26612 KiB
+[run_measured] measured run 4: status=ok wall=3.139s peak_rss=26472 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:37] done c_O2 n=1024 rc=0 in 18.9s (elapsed 0.7 min)
+[2026-10-29T17:35:37] run c_O3_native n=1024 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=3.084s peak_rss=26064 KiB
+[run_measured] measured run 1: status=ok wall=3.495s peak_rss=26064 KiB
+[run_measured] measured run 2: status=ok wall=3.018s peak_rss=26064 KiB
+[run_measured] measured run 3: status=ok wall=2.968s peak_rss=26064 KiB
+[run_measured] measured run 4: status=ok wall=3.060s peak_rss=26064 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:35:56] done c_O3_native n=1024 rc=0 in 18.5s (elapsed 1.0 min)
+[2026-10-29T17:35:56] run c_O3 n=1024 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=3.029s peak_rss=26480 KiB
+[run_measured] measured run 1: status=ok wall=3.069s peak_rss=26516 KiB
+[run_measured] measured run 2: status=ok wall=3.056s peak_rss=26628 KiB
+[run_measured] measured run 3: status=ok wall=3.008s peak_rss=26464 KiB
+[run_measured] measured run 4: status=ok wall=3.029s peak_rss=26472 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:36:14] done c_O3 n=1024 rc=0 in 18.9s (elapsed 1.3 min)
+[2026-10-29T17:36:14] run c_O0 n=1024 W=1 R=1 P=5
+[run_measured] waiting for benchmark lock /home/daniel/.cache/bigdata_bench.lock (another assignment is benchmarking)...
+[run_measured] measured run 0: status=ok wall=8.877s peak_rss=26492 KiB
+[run_measured] measured run 1: status=ok wall=8.545s peak_rss=26480 KiB
+[run_measured] measured run 2: status=ok wall=8.757s peak_rss=26644 KiB
+[run_measured] measured run 3: status=ok wall=8.654s peak_rss=26628 KiB
+[run_measured] measured run 4: status=ok wall=8.728s peak_rss=26456 KiB
+[run_measured] wrote 10 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/c_flags.csv
+[2026-10-29T17:37:07] done c_O0 n=1024 rc=0 in 53.0s (elapsed 2.2 min)
+[2026-10-29T17:37:07] experiment c_flags finished in 2.2 min
+environment written to results/environment_after.md
+[2026-10-29T17:37:08+00:00] RESUME done

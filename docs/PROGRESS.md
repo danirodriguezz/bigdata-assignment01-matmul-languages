@@ -1,5 +1,16 @@
 # Progress / handoff — Assignment 01
 
+## UPDATE 2026-10-29 17:50 — ALL PHASES DONE (session 3)
+- Benchmark finished in session 3 (2026-10-29 16:57–17:37, fresh boot, load ≈ 1): Python n=1536 ×2, C/Java
+  n=1536 and 2048, Python n=2048 = **timeout** (600 s, recorded without time), C flags study (`results/raw/c_flags.csv`),
+  `results/environment_after.md`. Log: `results/logs/resume_benchmark.log`.
+- `make analysis` regenerated everything (figures: legends moved, warm-up axis fixed; new macros
+  `CflagsOtwoMedian`, `PyExtrap*`). Report: Abstract, Results, Discussion, Conclusions written; Methodology
+  describes the 3 sessions. 7 pages, compiles cleanly.
+- `docs/defensa_oral.md` results filled; `docs/review_checklist.md` written (all ✅/⚠️ items listed for Daniel).
+- Committed, tagged `v1.0-submission` locally, `make package` built `deliverables/`.
+- **Pending for Daniel:** push commit + tag; check late submission with the instructor.
+
 ## UPDATE 2026-10-29 11:01 (session 2 stopped by Daniel)
 Session 2 (2026-10-29 10:46–11:01, fresh boot, loadavg ≈ 0.5–1.3) added to `results/raw/size_sweep.csv`:
 Python n=768 runs 4–5 (now k=5, mixed sessions), C/Java/Python n=1024 (k=5 each), Python n=1536 run 1 of 3.

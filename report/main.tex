@@ -43,7 +43,19 @@ Big Data, Academic Year 2026--2027}}
 
 % ------------------------------------------------------------------ Abstract
 \begin{abstract}
-%%ABSTRACT%%
+This study compares the runtime and memory of the same naive triple-loop (ijk) float64 matrix multiplication
+implemented in C (gcc -O2), Java (OpenJDK~21) and Python (CPython~3.12) on one Intel Core i7-9750H laptop, for
+square matrices with $n$ from 64 to 2048. The three programs read shared input files and produce bit-identical
+results. Only the kernel is timed, with five separate process runs per configuration (three for Python at $n=1536$), summarised by the median and
+the interquartile range. C and Java completed all sizes. Python completed $n=1536$ (median
+\TPythonFifteenThirtySix) and exceeded the 600\,s limit at $n=2048$. The fitted growth exponent is
+\ExpPython{} [95\,\% CI \ExpPythonLo, \ExpPythonHi] for Python but \ExpC{} [\ExpCLo, \ExpCHi] for C and
+\ExpJava{} [\ExpJavaLo, \ExpJavaHi] for Java, because their time per multiply--add rises with $n$ (C: from
+\NsMaddCMin{} to \NsMaddCMax\,ns). Java is indistinguishable from C for $128\le n\le384$ and up to
+\RatioJavaMax{} times slower for larger $n$; Python is \RatioPythonMin--\RatioPythonMax{} times slower than C. At
+$n=\MemCommonN$ the peak resident memory above the runtime baseline is \RssNetCommonPython{}\,MiB for Python
+against \RssNetCommonC{}\,MiB for C. The conclusions are limited to this machine, these toolchains and these
+settings.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -222,27 +234,262 @@ recorded with its status and an empty time, and larger sizes of that language ar
 
 \textbf{Execution and statistics.} Every configuration ran through \texttt{run\_measured.py}, which holds a
 machine-wide lock while measuring, records the process wall time, peak RSS, exit status and the 1-minute load
-average, and appends one raw CSV row per repetition. The main sweep ran from \SweepStart{} to \SweepEnd{}
-(\NumRawRows{} raw rows, \NumWarmupRows{} of them warm-ups). For each configuration the report gives the median and
+average, and appends one raw CSV row per repetition. The sweep was interrupted and resumed, so it ran in
+\NumSessions{} measurement sessions (a new session starts after a gap of more than one hour between rows):
+session~1, \SessionOneStart{}--\SessionOneEnd{}, all languages for $n\le512$ plus C, Java and three Python runs at
+$n=768$ (median load average \SessionOneLoadMedian{}, maximum \SessionOneLoadMax{}, with a browser and other
+assignments active); session~2, \SessionTwoStart{}--\SessionTwoEnd{} after a fresh boot, the remaining two Python
+runs at $n=768$, all languages at $n=1024$ and the first Python run at $n=1536$ (median load
+\SessionTwoLoadMedian{}); session~3, \SessionThreeStart{}--\SessionThreeEnd{}, the rest of $n=1536$, $n=2048$ and
+the C flags study (median load \SessionThreeLoadMedian{}). In total the sweep produced \NumRawRows{} raw rows
+(\NumWarmupRows{} of them warm-ups) and used about \SweepMachineMinutes{} minutes of process time. For each
+configuration the report gives the median and
 the interquartile range (IQR $=Q_3-Q_1$) of the $k$ measured samples. No measurement was excluded. The growth
 exponent $b$ in $T\approx c\,n^b$ is fitted by least squares on $\log T$ vs.\ $\log n$ of the medians, with a 95\,\%
 confidence interval from the Student $t$ distribution; runtime ratios at equal $n$ use the ratio of medians with a
 95\,\% bootstrap interval (5000 resamples).
 
+\textbf{Separate experiment: C compiler flags.} Outside the controlled comparison, the same C source was compiled
+with \texttt{-O0}, \texttt{-O2}, \texttt{-O3} and \texttt{-O3 -march=native} (all with \texttt{-std=c11})~\cite{gccopt}
+and run at $n\in\{256,512,1024\}$ with $P=5$ process runs of $W=1$ warm-up and one measured repetition each
+(\texttt{results/raw/c\_flags.csv}).
+
 % ------------------------------------------------------------------ Results
 \section{Results}
 \label{sec:results}
-%%RESULTS%%
+
+\input{generated/table_correctness.tex}
+
+\subsection{Correctness}
+All \CorrectNumCases{} test cases passed for the three implementations (\cref{tab:correctness}). The known,
+identity and zero cases are reproduced exactly; against NumPy the largest absolute error is
+$\CorrectMaxAbsErr$ and the largest error is \CorrectMaxErrOverBound{} times the tolerance bound. In every case
+the C, Java and Python results are bit-identical. During the benchmark, the checksums of all completed runs agree
+across languages at all \ChecksumSizes{} sizes (at $n=2048$ only C and Java completed).
+
+\input{generated/table_runtime.tex}
+
+\subsection{Runtime}
+\Cref{tab:runtime} lists the median kernel runtime, the IQR, the number of samples $k$ and the time per
+multiply--add for every configuration, and \cref{fig:runtime} plots the medians. At the largest common size
+$n=1536$ the medians are \TCFifteenThirtySix{} (C, IQR \TCFifteenThirtySixIQR{}), \TJavaFifteenThirtySix{}
+(Java, IQR \TJavaFifteenThirtySixIQR{}) and \TPythonFifteenThirtySix{} (Python, $k=\TPythonFifteenThirtySixK$,
+IQR \TPythonFifteenThirtySixIQR{}); at $n=2048$, C needs \TCTwentyFortyEight{} and Java \TJavaTwentyFortyEight{}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{runtime_vs_n}
+\caption{Median kernel runtime per multiplication vs.\ matrix size (log--log; error bars: IQR, $k=5$ except
+Python $n=1536$, $k=3$). Dotted line: $n^3$ reference anchored at the C median for $n=256$. Cross: Python run
+stopped by the 600\,s limit at $n=2048$ (no time is reported for it).}
+\label{fig:runtime}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{ns_per_madd}
+\caption{Time per multiply--add, $T/n^3$ (median and IQR of the per-sample values). A flat curve means exact
+cubic growth. Python is shown on its own axis because its values are one to two orders of magnitude larger.}
+\label{fig:nsmadd}
+\end{figure}
+
+\textbf{Time per operation.} \Cref{fig:nsmadd} divides each runtime by the $n^3$ multiply--adds. For C it rises from
+\NsMaddCMin{}\,ns at $n=\NsMaddCMinN$ to \NsMaddCTwoFiftySix{}\,ns at $n=256$, stays between about 1.3 and
+1.9\,ns up to $n=1024$, and then increases to \NsMaddCFifteenThirtySix{}\,ns ($n=1536$) and
+\NsMaddCTwentyFortyEight{}\,ns ($n=2048$). Java stays close to C up to $n=768$ (\NsMaddJavaMin{}--\NsMaddJavaFiveTwelve{}\,ns)
+and then rises more steeply: \NsMaddJavaTenTwentyFour{}\,ns at $n=1024$, \NsMaddJavaFifteenThirtySix{}\,ns at
+$n=1536$ and \NsMaddJavaTwentyFortyEight{}\,ns at $n=2048$. Python needs \NsMaddPythonMin{}\,ns at $n=64$ and
+between \NsMaddPythonTenTwentyFour{} and \NsMaddPythonFifteenThirtySix{}\,ns for $n\ge768$, with an outlier of
+\NsMaddPythonThreeEightyFour{}\,ns at $n=384$.
+
+\textbf{Ratios to C at equal $n$} (ratio of medians, 95\,\% bootstrap interval). Java/C is
+\RatioJavaSixtyFour{} [\RatioJavaSixtyFourLo, \RatioJavaSixtyFourHi] at $n=64$; between $n=128$ and $n=512$ it lies
+between \RatioJavaMin{} and \RatioJavaFiveTwelve{}, and the intervals at $n=128$, 256 and 384 include 1. For larger
+$n$ it is \RatioJavaSevenSixtyEight{} [\RatioJavaSevenSixtyEightLo, \RatioJavaSevenSixtyEightHi] at $n=768$,
+\RatioJavaTenTwentyFour{} [\RatioJavaTenTwentyFourLo, \RatioJavaTenTwentyFourHi] at $n=1024$,
+\RatioJavaFifteenThirtySix{} [\RatioJavaFifteenThirtySixLo, \RatioJavaFifteenThirtySixHi] at $n=1536$ and
+\RatioJavaTwentyFortyEight{} [\RatioJavaTwentyFortyEightLo, \RatioJavaTwentyFortyEightHi] at $n=2048$.
+Python/C is largest at $n=64$, \RatioPythonSixtyFour{} [\RatioPythonSixtyFourLo, \RatioPythonSixtyFourHi], and falls, not monotonically, to
+\RatioPythonTenTwentyFour{} [\RatioPythonTenTwentyFourLo, \RatioPythonTenTwentyFourHi] at $n=1024$ and
+\RatioPythonFifteenThirtySix{} [\RatioPythonFifteenThirtySixLo, \RatioPythonFifteenThirtySixHi] at $n=1536$.
+
+\input{generated/table_growth.tex}
+
+\subsection{Growth exponent}
+\Cref{tab:growth} gives the fitted exponents. Over $n=\ExpCNmin$--$\ExpCNmax$, C grows with $b=\ExpC$
+[\ExpCLo, \ExpCHi] and Java with $b=\ExpJava$ [\ExpJavaLo, \ExpJavaHi]; neither interval contains 3. Python grows
+with $b=\ExpPython$ [\ExpPythonLo, \ExpPythonHi] over $n=\ExpPythonNmin$--$\ExpPythonNmax$, an interval that
+contains 3. The restricted fits show the same pattern: for C and Java the exponent is above 3 already for
+$n\le512$, and the large-$n$ fits ($n\ge512$) have wide intervals because they rest on only five or four points.
+
+\input{generated/table_limits.tex}
+
+\subsection{Limits}
+C and Java completed every declared size up to $n=2048$ (\cref{tab:limits}). The single Python attempt at
+$n=\PyFailN$ was stopped by the \PyFailWall\,s limit (status \texttt{\PyFailType}); it is recorded without a time.
+The largest feasible Python size under the declared budget is therefore $n=\MaxNPython$. No configuration came
+close to the 8\,GB memory budget.
+
+\input{generated/table_memory.tex}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{memory_rss}
+\caption{Median peak RSS of the whole process (GNU \texttt{time}) vs.\ matrix size. Dotted lines: storage of the
+three matrices at 8\,B per element (dense) and at 32\,B per element (Python estimate: 24\,B \texttt{float} object +
+8\,B list reference).}
+\label{fig:memory}
+\end{figure}
+
+\subsection{Memory}
+The runtime alone, measured at $n=1$, occupies \RssBaseC{}\,MiB (C), \RssBaseJava{}\,MiB (Java) and
+\RssBasePython{}\,MiB (Python) of peak RSS. For small $n$ this baseline dominates (\cref{fig:memory}): Java stays
+near 50\,MiB up to $n=512$. At the largest common size $n=\MemCommonN$ the peak RSS is \RssCommonC{}\,MiB (C),
+\RssCommonJava{}\,MiB (Java) and \RssCommonPython{}\,MiB (Python); after subtracting the baseline this is
+\RssNetCommonC{}, \RssNetCommonJava{} and \RssNetCommonPython{}\,MiB, compared with \DenseCommon{}\,MiB for three
+dense float64 matrices (\cref{tab:memory}). The language-specific metrics give \MemMetricBpeC{}\,B per element for
+C (exact allocation), \MemMetricBpeJava{}\,B per element for the Java heap peak at $n=2048$ and
+\MemMetricBpePython{}\,B per element for the Python object graph.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{java_warmup}
+\caption{Java JIT warm-up: time of each in-process warm-up iteration divided by the median of the measured
+samples at the same $n$ (median over the $P=5$ processes; log scale). The last point is the measured sample.}
+\label{fig:warmup}
+\end{figure}
+
+\subsection{Warm-up and variability}
+In Java the first in-process iteration takes \JavaFirstIterMaxRel{} times the steady-state median at
+$n=\JavaFirstIterMaxRelN$, while at $n=\JavaFirstIterLargeN$ it takes \JavaFirstIterLargeRel{} times
+(\cref{fig:warmup}). In C and Python the first iteration is between \CFirstIterRelMin{}--\CFirstIterRelMax{} and
+\PythonFirstIterRelMin{}--\PythonFirstIterRelMax{} times the median, respectively, i.e.\ there is no systematic
+warm-up effect. The relative IQR (IQR/median) has a median over the sizes of \RelIQRCMedian\,\% (C),
+\RelIQRJavaMedian\,\% (Java) and \RelIQRPythonMedian\,\% (Python); its maximum occurs at $n=384$ for all three
+languages (\RelIQRCMax\,\%, \RelIQRJavaMax\,\% and \RelIQRPythonMax\,\%), a size measured in session~1, when the
+machine was busy (load average up to \SessionOneLoadMax{} in that session). Two configurations mix sessions: Python at $n=768$ (session~1 median
+\MixedPythonSevenSixtyEightSessionOneMedian{}, $k=\MixedPythonSevenSixtyEightSessionOneK$; session~2
+\MixedPythonSevenSixtyEightSessionTwoMedian{}, $k=\MixedPythonSevenSixtyEightSessionTwoK$) and Python at
+$n=1536$ (session~2 \MixedPythonFifteenThirtySixSessionTwoMedian{}, $k=\MixedPythonFifteenThirtySixSessionTwoK$;
+session~3 \MixedPythonFifteenThirtySixSessionThreeMedian{}, $k=\MixedPythonFifteenThirtySixSessionThreeK$).
+
+\input{generated/table_cflags.tex}
+
+\subsection{Separate experiment: C compiler flags}
+At $n=\CflagsN$ (\cref{tab:cflags}), \texttt{-O0} is \CflagsOzeroOverOtwo{} times slower than \texttt{-O2}, while
+\texttt{-O3} and \texttt{-O3 -march=native} take \CflagsOthreeOverOtwo{} and \CflagsNativeOverOtwo{} times the
+\texttt{-O2} median. The checksums of the four variants are identical at every $n$. The \texttt{-O2} median of this
+experiment at $n=1024$ (\CflagsOtwoMedian{}, session~3) is lower than the \TCTenTwentyFour{} measured for the same
+binary in the size sweep (session~2).
 
 % ------------------------------------------------------------------ Discussion
 \section{Discussion}
 \label{sec:discussion}
-%%DISCUSSION%%
+
+\subsection{Answer to the research question}
+On the tested laptop, all three implementations perform exactly $n^3$ multiply--adds, but only the Python runtime
+grows at a rate compatible with $n^3$ ($b=\ExpPython$). The C and Java runtimes grow faster ($b=\ExpC$ and
+$b=\ExpJava$) because the time per multiply--add increases with $n$. At equal $n$, C and Java cannot be told apart
+for $128\le n\le384$; from $n=768$ on, Java is slower by a factor between \RatioJavaSevenSixtyEight{} and
+\RatioJavaFifteenThirtySix{}. Python is \RatioPythonMin{}--\RatioPythonMax{} times slower than C and is the only
+implementation that does not finish $n=2048$ within 600\,s. In memory, the fixed runtime cost dominates for small
+$n$ (Java about \RssBaseJava{}\,MiB), while for large $n$ C uses exactly the dense storage and Python about five
+times as much.
+
+\subsection{Hypotheses}
+\emph{H1 (cubic growth) is partially supported.} The operation count is cubic by construction and the Python
+exponent interval contains 3, but the C and Java intervals exclude 3 over the main range and for $n\le512$ (the
+fits for $n\ge512$ have only five points and are too wide to decide for C). The predicted
+deviation at large $n$ is present, and for C and Java it already appears at small $n$.
+\emph{H2 (C $<$ Java $<$ Python, Java within a small factor) is supported with a qualification.} Python is always
+the slowest, and Java is at most \RatioJavaMax{} times slower than C. However, C is not measurably faster than Java
+at $n=128$--384, so the order C $<$ Java holds only where the bootstrap intervals exclude 1 ($n=64$ and $n\ge512$).
+\emph{H3 (more memory per element in Python) is supported.} \texttt{sys.getsizeof} gives \MemMetricBpePython{}\,B
+per element against 8\,B in C, and the peak RSS above the baseline at $n=\MemCommonN$ is \RssNetCommonPython{}\,MiB
+against \RssNetCommonC{}\,MiB.
+
+\subsection{Interpretation}
+\textbf{Memory hierarchy (C).} The steps in the C time per multiply--add line up with the size of $B$ ($8n^2$\,B)
+relative to the caches of \cref{tab:env}. $B$ fills the 32\,KiB L1d at $n=64$ (\NsMaddCSixtyFour\,ns), fits in the
+256\,KiB L2 at $n=128$ (\NsMaddCOneTwoEight\,ns), and needs the 12\,MiB L3 at $n=256$--1024 (8\,MiB at $n=1024$).
+It exceeds L3 at $n=1536$ (18\,MiB, \NsMaddCFifteenThirtySix\,ns) and $n=2048$ (32\,MiB, \NsMaddCTwentyFortyEight\,ns).
+In the ijk order every access to $B$ jumps $8n$ bytes, so each one uses a new cache line and, for $n\ge512$, a new
+4\,KiB page. This is the access pattern that Drepper uses to show the cost of cache and TLB misses~\cite{drepper2007}.
+The power-of-two sizes may add cache-set conflicts~\cite{lam1991}, which this design cannot separate from capacity
+effects. Hardware counters were not available (\texttt{perf\_event\_paranoid}$=4$), so these explanations agree
+with the data but are \emph{not verified} here.
+
+\textbf{Java layout and JIT.} After warm-up, Java matches C while the working set is cache-resident, which
+indicates that the JIT-compiled loop is about as fast as the gcc~\texttt{-O2} loop when memory is not the
+bottleneck. The gap opens exactly when C also slows down (from $n=768$--1024), so Java appears to be more sensitive
+to the memory hierarchy. A plausible but unverified cause is the \texttt{double[][]} layout. Every access
+\texttt{b[k][j]} first loads the reference to row $k$, and the rows are separate heap objects with headers and no
+guaranteed contiguity or alignment. Confirming this would require cache-miss counters or the JIT-generated
+assembly. The JIT effect itself is clear in \cref{fig:warmup}. The first iteration is much slower only for short
+kernels, which run mostly in the interpreter or in early compilation tiers~\cite{georges2007}. At $n\ge1024$ the
+first iteration already takes about as long as the steady state, so JIT compilation happens within its first small
+fraction.
+
+\textbf{Interpreter cost (Python).} CPython runs every multiply--add as several bytecode instructions with list
+indexing and creates a new \texttt{float} object for each product and partial sum~\cite{pep659,pydocsys}. This
+fixed cost per operation, \NsMaddPythonMin--\NsMaddPythonFifteenThirtySix\,ns compared with \NsMaddCMin--\NsMaddCMax\,ns in C,
+explains three observations. The exponent is close to 3, the ratio to C is large, and the ratio falls as $n$ grows,
+because C becomes memory-bound while Python remains interpreter-bound. The moderate increase of the Python time per
+operation with $n$ may also be a memory effect: the process reaches \RssPythonFifteenThirtySix\,MiB of peak RSS at
+$n=1536$. This is a conjecture. The outlier at $n=384$ was measured in the busiest session and is treated as
+measurement variability, not as a property of the algorithm.
+
+\textbf{Memory.} For C the peak RSS above the baseline equals the dense storage ($\RssOverDenseC\times$ at
+$n=\RssMaxNnC$), as expected from three \texttt{malloc}ed blocks. The 32\,B per element measured for Python matches
+a 24\,B \texttt{float} object plus an 8\,B list reference. The peak RSS is somewhat higher still
+($\RssOverDensePython\times$ the dense storage, i.e.\ more than $4\times$). The remaining difference
+(allocator overhead and temporary buffers created while loading the inputs) is not attributed here. Java needs
+$\RssOverDenseJava\times$ the dense storage above its baseline at $n=\RssMaxNnJava$. The JVM heap metric also
+includes objects that were not yet collected, so it is an upper bound of the live matrix data rather than an exact
+size.
+
+\textbf{Compiler flags.} Turning optimisation off costs a factor \CflagsOzeroOverOtwo{}, whereas \texttt{-O3} and
+\texttt{-march=native} change the time by less than 10\,\% at every tested $n$. A plausible explanation is the reduction
+\texttt{s += a*b}. GCC does not reassociate floating-point operations by default (\texttt{-fno-associative-math}),
+and no \texttt{-O} level below \texttt{-Ofast} enables this~\cite{gccopt}. The compiler therefore has to keep the
+sequential order of the sum, which prevents the usual SIMD reduction. The identical checksums of all variants are
+consistent with an unchanged evaluation order.
+
+\subsection{Limitations}
+(i)~One laptop with the \texttt{powersave} governor and turbo enabled. The clock frequency depends on temperature
+and on the number of active cores, and the three sessions ran under different loads. The same \texttt{-O2} binary
+gave \TCTenTwentyFour{} at $n=1024$ in session~2 and \CflagsOtwoMedian{} in session~3, so the difference between
+sessions can exceed the IQR within a session. Comparisons between sizes measured in different sessions should
+therefore be read with this uncertainty in mind.
+(ii)~Other agents shared the machine. The lock serialised all timed runs, but not other work such as compilation.
+(iii)~No hardware counters, so the explanations based on caches and memory layout remain conjectures.
+(iv)~Few samples where runs are expensive: $k=3$ for Python at $n=1536$ and a single attempt at $n=2048$.
+Bootstrap intervals from $k=5$ are approximate.
+(v)~Each language uses its idiomatic layout. The results therefore compare implementations as written, not the
+languages in general. The language-specific memory metrics are not comparable with one another; only the peak RSS
+is.
+(vi)~One input distribution (uniform $[-1,1)$) and square matrices only.
 
 % ------------------------------------------------------------------ Conclusions
 \section{Conclusions}
 \label{sec:conclusions}
-%%CONCLUSIONS%%
+For the naive ijk float64 multiplication on an Intel Core i7-9750H laptop, with gcc~13.3 \texttt{-O2}, OpenJDK~21
+and CPython~3.12, the study establishes the following points.
+(1)~The three implementations are correct and bit-identical, so the comparison measures only how fast each one
+executes the same arithmetic.
+(2)~The runtime grows faster than the cubic operation count for C and Java ($b\approx\ExpC$ and $\ExpJava$),
+because the cost per multiply--add rises from \NsMaddCMin{} to \NsMaddCMax\,ns in C. For Python it grows roughly as
+$n^3$, because the interpreter cost per operation dominates.
+(3)~Java is as fast as C for cache-resident sizes and up to \RatioJavaMax{} times slower for larger ones. Python is
+\RatioPythonMin--\RatioPythonMax{} times slower than C, and its largest feasible size under a 600\,s budget is
+$n=\MaxNPython$.
+(4)~The memory per element is 8\,B in C and 32\,B in Python, and the runtime baseline dominates the peak RSS of
+Java and Python at small $n$.
+These statements hold only for the tested implementations, settings, inputs and hardware. Several questions remain
+open. Hardware counters are needed to confirm the cache, TLB and layout explanations, including the specific cause
+of the Java gap. A contiguous one-dimensional Java array would show how much of the gap the layout explains.
+Measuring all sizes in one session would remove the variability between sessions. Loop reordering, blocking and
+parallel execution are left to the following assignments.
 
 % ------------------------------------------------------------------ Materials + AI statement
 \section*{Reproducibility Materials}

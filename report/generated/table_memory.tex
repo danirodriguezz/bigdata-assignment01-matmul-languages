@@ -3,17 +3,17 @@
 \caption{Memory at the largest completed $n$ of each implementation. Peak RSS: median over the measured process runs (GNU \texttt{time} \%M); baseline: median peak RSS of the same program at $n=1$ ($k=5$). Language metric: C \texttt{matrix\_storage\_bytes} (exact allocation), Java \texttt{jvm\_heap\_peak\_used\_bytes} (MemoryPoolMXBean, heap pools), Python \texttt{pyobj\_deep\_size\_bytes} (\texttt{sys.getsizeof}). The metrics measure different things and are not directly comparable.}
 \label{tab:memory}
 \footnotesize
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
 Impl. & $n$ & RSS & Baseline & RSS$-$base & $3\cdot8n^2$ & Lang. metric (B/elem.) \\
  & & [MiB] & [MiB] & [MiB] & [MiB] & [MiB] \\
 \midrule
-C & 512 & 8.0 & 1.9 & 6.2 & 6.0 & 6.0 (8.0) \\
-C & 768 & 15.5 & 1.9 & 13.6 & 13.5 & 13.5 (8.0) \\
-Java & 512 & 54.9 & 48.2 & 6.7 & 6.0 & 11.0 (14.7) \\
-Java & 768 & 62.7 & 48.2 & 14.5 & 13.5 & 19.0 (11.3) \\
-Python & 512 & 42.5 & 12.5 & 30.0 & 6.0 & 24.1 (32.1) \\
+C & 1536 & 55.8 & 1.9 & 54.0 & 54.0 & 54.0 (8.0) \\
+C & 2048 & 97.9 & 1.9 & 96.0 & 96.0 & 96.0 (8.0) \\
+Java & 1536 & 142.4 & 48.2 & 94.2 & 54.0 & 96.9 (14.4) \\
+Java & 2048 & 184.7 & 48.2 & 136.5 & 96.0 & 138.4 (11.5) \\
+Python & 1536 & 283.4 & 12.5 & 270.9 & 54.0 & 216.3 (32.0) \\
 \bottomrule
 \end{tabular}
 \end{table}

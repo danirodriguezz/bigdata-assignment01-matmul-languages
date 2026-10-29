@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Separate experiment (not part of the language comparison): same C source compiled with different gcc flags. Median [IQR] kernel runtime, $k=5$ process runs, 1 warm-up each.}
+\label{tab:cflags}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+gcc flags & $n=256$ & $n=512$ & $n=1024$ \\
+\midrule
+\texttt{-O0} & 59.9\,ms [2.27\,ms] & 495\,ms [13\,ms] & 4.32\,s [49\,ms] \\
+\texttt{-O2} & 20.8\,ms [1.64\,ms] & 180\,ms [1.77\,ms] & 1.57\,s [11\,ms] \\
+\texttt{-O3} & 22.2\,ms [268\,\textmu s] & 176\,ms [675\,\textmu s] & 1.5\,s [11.7\,ms] \\
+\texttt{-O3 -march=native} & 20.5\,ms [1.79\,ms] & 176\,ms [4.5\,ms] & 1.51\,s [23.8\,ms] \\
+\bottomrule
+\end{tabular}
+\end{table}

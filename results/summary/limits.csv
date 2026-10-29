@@ -1,4 +1,4 @@
 language,largest_completed_n,largest_attempted_n,failed_n,failure_type,not_attempted_n
-c,768,768,,,
-java,768,768,,,
-python,512,512,,,
+c,2048,2048,,,
+java,2048,2048,,,
+python,1536,2048,2048,timeout,
