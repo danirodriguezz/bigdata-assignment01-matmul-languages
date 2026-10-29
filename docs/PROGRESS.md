@@ -1,4 +1,24 @@
-# Progress / handoff — Assignment 01 (stopped by Daniel)
+# Progress / handoff — Assignment 01
+
+## UPDATE 2026-10-29 11:01 (session 2 stopped by Daniel)
+Session 2 (2026-10-29 10:46–11:01, fresh boot, loadavg ≈ 0.5–1.3) added to `results/raw/size_sweep.csv`:
+Python n=768 runs 4–5 (now k=5, mixed sessions), C/Java/Python n=1024 (k=5 each), Python n=1536 run 1 of 3.
+The 2nd Python n=1536 run was killed after ~76 s (no row written — nothing to clean). Log: `results/logs/session2_benchmark.log`.
+Also done: Daniel confirmed the AI statement and the GitHub URL (docs/DECISIONS.md); `analysis/make_all.py` now
+detects measurement sessions (>1 h gap) → `results/summary/sessions.csv` + macros `Session*`, `Mixed*` (report must
+state which sizes come from which session).
+
+**PENDING** (≈ 35–40 min machine time): Python n=1536 ×2, C/Java n=1536, C/Java/Python n=2048, C flags study.
+Resume with ONE command (from the folder root; run in background, it takes the machine-wide lock per config):
+```bash
+bash scripts/resume_benchmarks.sh 2>&1 | tee -a results/logs/resume_benchmark.log
+```
+Then: `make analysis`, write Abstract/Results/Discussion/Conclusions in `report/main.tex` (mention the 2–3
+measurement sessions and their load in Methodology), fill `%%RESULTADOS%%` in `docs/defensa_oral.md`,
+`make report`, report-review, `make package`, commit + tag `v1.0-submission`.
+
+---
+## Previous handoff (2026-10-27)
 
 **Stopped:** 2026-10-27 23:02 UTC (laptop clock), on Daniel's request. All my benchmark processes were killed
 (driver, run_measured.py, the running Python program). Assignment 2's processes were not touched.

@@ -27,3 +27,6 @@ Sibling assignments read this file to stay consistent.
 | 2026-10-27 | Optional experiment | Separate C flags study: -O0, -O2, -O3, -O3 -march=native at n ∈ {256, 512, 1024}; not part of the controlled comparison | Agent (CLAUDE.md default "if time allows") |
 | 2026-10-27 | Repository name | `bigdata-assignment01-matmul-languages` (GitHub user to be confirmed by Daniel) | Agent (CLAUDE.md default) |
 | 2026-10-27 | Report style | IEEE conference two-column, impersonal voice, figures with Okabe–Ito palette | Agent |
+| 2026-10-29 | Generative-AI statement | Confirmed as written in report/README (Claude Code, Anthropic, model Claude Opus 5.5) | Daniel |
+| 2026-10-29 | GitHub repository | `git@github.com:danirodriguezz/bigdata-assignment01-matmul-languages.git` (web: https://github.com/danirodriguezz/bigdata-assignment01-matmul-languages); remote added and pushed by Daniel | Daniel |
+| 2026-10-29 | Second measurement session | Benchmark resumed on 2026-10-29 (fresh boot, low load) for Python n=768 (2 runs), all languages n ≥ 1024 and the C flags study; sessions identified and reported separately | Agent |

@@ -249,6 +249,37 @@ macro("SweepStart", first_ts.strftime("%Y-%m-%d %H:%M"))
 macro("SweepEnd", last_ts.strftime("%H:%M"))
 macro("SweepMachineMinutes", f"{sweep.drop_duplicates('run_id').process_wall_s.astype(float).sum() / 60:.0f}")
 
+# Measurement sessions: the sweep was interrupted and resumed on another day. A new session starts
+# when two consecutive raw rows are more than one hour apart. Load average is reported per session.
+ts = pd.to_datetime(sweep.timestamp)
+sess_id = (ts.sort_values().diff() > pd.Timedelta(hours=1)).cumsum().reindex(ts.index)
+sweep["session"] = sess_id + 1
+ok["session"] = sweep.loc[ok.index, "session"]
+macro("NumSessions", str(int(sweep.session.max())))
+sess_rows = []
+for s_num, g in sweep.groupby("session"):
+    word = {1: "One", 2: "Two", 3: "Three"}[int(s_num)]
+    t = pd.to_datetime(g.timestamp)
+    g_ok = ok[ok.session == s_num]
+    macro(f"Session{word}Start", t.min().strftime("%Y-%m-%d %H:%M"))
+    macro(f"Session{word}End", t.max().strftime("%H:%M"))
+    macro(f"Session{word}LoadMedian", f"{g_ok.loadavg_1m.astype(float).median():.2f}")
+    macro(f"Session{word}LoadMax", f"{g_ok.loadavg_1m.astype(float).max():.2f}")
+    confs = sorted({(l, int(n)) for l, n in zip(g_ok.language, g_ok.n)})
+    sess_rows.append({"session": int(s_num), "start": t.min(), "end": t.max(), "measured_rows": len(g_ok),
+                      "load_median": g_ok.loadavg_1m.astype(float).median(),
+                      "configurations": ";".join(f"{l}:{n}" for l, n in confs)})
+pd.DataFrame(sess_rows).to_csv(SUM / "sessions.csv", index=False)
+# configurations whose samples come from more than one session
+mixed = ok.groupby(["language", "n"]).session.nunique()
+mixed = mixed[mixed > 1]
+for (lang, n), _ in mixed.items():
+    p = f"Mixed{SHORT[lang]}{NWORD[int(n)]}"
+    for s_num, g in ok[(ok.language == lang) & (ok.n == n)].groupby("session"):
+        word = {1: "One", 2: "Two", 3: "Three"}[int(s_num)]
+        macro(f"{p}Session{word}Median", fmt_s(g.time_s.median()))
+        macro(f"{p}Session{word}K", str(len(g)))
+
 # ----------------------------------------------------------------------------- figure 1: runtime vs n
 fig, ax = new_figure(height=2.5)
 for lang in LANGS:

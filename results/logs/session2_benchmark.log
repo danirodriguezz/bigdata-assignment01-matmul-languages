@@ -1,0 +1,36 @@
+[2026-10-29T10:46:20+00:00] SESSION 2 start (resume after stop of 2026-10-27); uptime:  10:46:20 up 3 min,  1 user,  load average: 0,47, 0,52, 0,24
+[run_measured] measured run 0: status=ok wall=30.811s peak_rss=81332 KiB
+[run_measured] wrote 1 rows to results/raw/size_sweep.csv
+[run_measured] measured run 0: status=ok wall=30.671s peak_rss=82124 KiB
+[run_measured] wrote 1 rows to results/raw/size_sweep.csv
+[2026-10-29T10:47:21] run java n=1024 W=2 R=1 P=5
+[run_measured] measured run 0: status=ok wall=13.246s peak_rss=73784 KiB
+[run_measured] measured run 1: status=ok wall=14.732s peak_rss=74484 KiB
+[run_measured] measured run 2: status=ok wall=13.721s peak_rss=74136 KiB
+[run_measured] measured run 3: status=ok wall=13.629s peak_rss=73980 KiB
+[run_measured] measured run 4: status=ok wall=19.369s peak_rss=74408 KiB
+[run_measured] wrote 15 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T10:48:36] done java n=1024 rc=0 in 74.7s (elapsed 1.2 min)
+[2026-10-29T10:48:36] run c n=1024 W=0 R=1 P=5
+[run_measured] measured run 0: status=ok wall=2.232s peak_rss=26364 KiB
+[run_measured] measured run 1: status=ok wall=1.949s peak_rss=26384 KiB
+[run_measured] measured run 2: status=ok wall=1.737s peak_rss=26508 KiB
+[run_measured] measured run 3: status=ok wall=2.039s peak_rss=26456 KiB
+[run_measured] measured run 4: status=ok wall=2.244s peak_rss=26356 KiB
+[run_measured] wrote 5 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T10:48:46] done c n=1024 rc=0 in 10.3s (elapsed 1.4 min)
+[2026-10-29T10:48:46] run python n=1024 W=0 R=1 P=5 (lock released between processes)
+[run_measured] measured run 0: status=ok wall=93.263s peak_rss=135576 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] measured run 0: status=ok wall=81.112s peak_rss=136152 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] measured run 0: status=ok wall=78.310s peak_rss=136116 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] measured run 0: status=ok wall=77.982s peak_rss=136092 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[run_measured] measured run 0: status=ok wall=76.821s peak_rss=135968 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
+[2026-10-29T10:55:34] done python n=1024 rc=0 in 407.7s (elapsed 8.2 min)
+[2026-10-29T10:55:34] run python n=1536 W=0 R=1 P=3 (lock released between processes)
+[run_measured] measured run 0: status=ok wall=269.038s peak_rss=290360 KiB
+[run_measured] wrote 1 rows to /home/daniel/Documentos/Universidad/4Year/Big_Data/Teoria/Assigments/Assignment01_Basic_MatMul_Languages/results/raw/size_sweep.csv
